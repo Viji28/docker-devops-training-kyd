@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: spring-boot-container
-          image: your-image-name:tag
+          image: viji2812/springboot-kyn-k8s:latest
           ports:
             - containerPort: 7000
           resources:
