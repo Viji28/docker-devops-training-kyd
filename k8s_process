@@ -1,0 +1,363 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Try the new cross-platform PowerShell https://aka.ms/pscore6
+
+[IntelliJ IDEA] Your PSReadLine module version (2.0.0) is outdated, which may cause the problem with black lines across the terminal screen:
+https://learn.microsoft.com/windows/terminal/troubleshooting#black-lines-in-powershell-51-6x-70
+Install the latest version by running: 'Install-Module PSReadLine -MinimumVersion 2.0.3 -Scope CurrentUser -Force'
+After the installation, open a new terminal tab.
+
+PS C:\Users\Administrator\docker-devops-training-kyd> minikube start
+* minikube v1.37.0 on Microsoft Windows 10 Enterprise Evaluation 10.0.19045.6159 Build 19045.6159
+* Using the docker driver based on existing profile
+* Starting "minikube" primary control-plane node in "minikube" cluster
+* Pulling base image v0.0.48 ...
+* Updating the running docker "minikube" container ...  
+! Failing to connect to https://registry.k8s.io/ from inside the minikube container
+* To pull new external images, you may need to configure a proxy: https://minikube.sigs.k8s.io/docs/reference/networking/proxy/
+* Preparing Kubernetes v1.34.0 on Docker 28.4.0 ...  
+* Verifying Kubernetes components...
+  - Using image gcr.io/k8s-minikube/storage-provisioner:v5
+* Enabled addons: storage-provisioner, default-storageclass
+* Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+PS C:\Users\Administrator\docker-devops-training-kyd> 
+PS C:\Users\Administrator\docker-devops-training-kyd> 
+
+PS C:\Users\Administrator\docker-devops-training-kyd> minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+PS C:\Users\Administrator\docker-devops-training-kyd> kubectl cluster-info
+Kubernetes control plane is running at https://127.0.0.1:51687
+CoreDNS is running at https://127.0.0.1:51687/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+PS C:\Users\Administrator\docker-devops-training-kyd> kubectl get node    
+NAME       STATUS   ROLES           AGE     VERSION
+minikube   Ready    control-plane   5h38m   v1.34.0
+
+PS C:\Users\Administrator\docker-devops-training-kyd> minikube docker-env
+$Env:DOCKER_TLS_VERIFY = "1"
+$Env:DOCKER_HOST = "tcp://127.0.0.1:51690"
+$Env:DOCKER_CERT_PATH = "C:\Users\Administrator\.minikube\certs"
+$Env:MINIKUBE_ACTIVE_DOCKERD = "minikube"
+# To point your shell to minikube's docker-daemon, run:
+# & minikube -p minikube docker-env --shell powershell | Invoke-Expression
+
+PS C:\Users\Administrator\docker-devops-training-kyd> docker build -t viji2812/springboot-kyn-k8s .      
+[+] Building 5.7s (16/16) FINISHED                                                                                                                             docker:desktop-linux
+ => [internal] load build definition from Dockerfile                                                                                                                           0.1s
+ => => transferring dockerfile: 557B                                                                                                                                           0.1s
+ => [internal] load metadata for docker.io/library/maven:3.9.6-eclipse-temurin-21                                                                                              3.0s 
+ => [internal] load metadata for docker.io/library/eclipse-temurin:21-jre                                                                                                      3.0s
+ => [auth] library/eclipse-temurin:pull token for registry-1.docker.io                                                                                                         0.0s
+ => [auth] library/maven:pull token for registry-1.docker.io                                                                                                                   0.0s
+ => [internal] load .dockerignore                                                                                                                                              0.1s 
+ => => transferring context: 2B                                                                                                                                                0.0s 
+ => [build 1/5] FROM docker.io/library/maven:3.9.6-eclipse-temurin-21@sha256:8d63d4c1902cb12d9e79a70671b18ebe26358cb592561af33ca1808f00d935cb                                  0.2s 
+ => => resolve docker.io/library/maven:3.9.6-eclipse-temurin-21@sha256:8d63d4c1902cb12d9e79a70671b18ebe26358cb592561af33ca1808f00d935cb                                        0.1s
+ => [internal] load build context                                                                                                                                              0.1s 
+ => => transferring context: 1.25kB                                                                                                                                            0.0s 
+ => [stage-1 1/3] FROM docker.io/library/eclipse-temurin:21-jre@sha256:bbcd43c7120c41cc5c9fc844b4403e6865a6f911fec1624ff5dda6f9118cc115                                        0.2s
+ => => resolve docker.io/library/eclipse-temurin:21-jre@sha256:bbcd43c7120c41cc5c9fc844b4403e6865a6f911fec1624ff5dda6f9118cc115                                                0.1s
+ => CACHED [stage-1 2/3] WORKDIR /app                                                                                                                                          0.0s 
+ => CACHED [build 2/5] WORKDIR /app                                                                                                                                            0.0s 
+ => CACHED [build 3/5] COPY pom.xml .                                                                                                                                          0.0s 
+ => CACHED [build 4/5] COPY src ./src                                                                                                                                          0.0s 
+ => CACHED [build 5/5] RUN mvn clean package -DskipTests                                                                                                                       0.0s
+ => CACHED [stage-1 3/3] COPY --from=build /app/target/*.jar app.jar                                                                                                           0.0s 
+ => exporting to image                                                                                                                                                         0.9s 
+ => => exporting layers                                                                                                                                                        0.0s 
+ => => exporting manifest sha256:45d5f450cfd39e930db50dd01faf51b53795ccba4e774515e511b47360b326fc                                                                              0.0s 
+ => => exporting config sha256:c969ff0ef00ae6fe2c571c4e3de7fd18454a1ea08d0bf828bba664a873523b74                                                                                0.0s 
+ => => exporting attestation manifest sha256:f8d042dd9cc910744f23680a865d6fed4f0426553aea10567892421b6b2bae01                                                                  0.2s 
+ => => exporting manifest list sha256:cc70de40d74e7e2bc6f5bd112859b2e01b514ad95fde6414d79428d5edba4932                                                                         0.1s 
+ => => naming to docker.io/viji2812/springboot-kyn-k8s:latest                                                                                                                  0.0s 
+ => => unpacking to docker.io/viji2812/springboot-kyn-k8s:latest                                                                                                               0.1s 
+
+
+PS C:\Users\Administrator\docker-devops-training-kyd> docker images                                                                                                                 
+REPOSITORY                                          TAG         IMAGE ID       CREATED             SIZE
+viji2812/springboot-kyn-k8s                         latest      cc70de40d74e   28 minutes ago      451MB
+jenkins-devops-springboot-app                       latest      f46cb244353a   About an hour ago   740MB
+viji2812/springboot1-mysql-app                      latest      826a4f930d15   About an hour ago   740MB
+threetierappln-frontend                             latest      523350bd3783   29 hours ago        2.68GB
+threetierappln-backend                              latest      1d7aa2935b3b   29 hours ago        1.47GB
+sharath198/react-app-expensive                      latest      3cde3f0371ff   31 hours ago        438MB
+docker-devops-training-compose-krd-springboot-app   latest      9a97b5f47594   2 days ago          740MB
+springboot-docker-ext-kyd                           latest      53de0f287225   2 days ago          451MB
+viji2812/springboot-docker-ext-kyd                  latest      53de0f287225   2 days ago          451MB
+viji2812/springboot-docker-ext-kyd                  tag         53de0f287225   2 days ago          451MB
+node                                                24-alpine   f36fed0b2129   12 days ago         237MB
+mongo                                               latest      86835e8da0f9   12 days ago         1.24GB
+mysql                                               8           b306273d4d36   2 weeks ago         1.08GB
+gcr.io/k8s-minikube/kicbase                         v0.0.48     41454ef774d0   2 months ago        1.84GB
+gcr.io/k8s-minikube/kicbase                         <none>      7171c97a5162   2 months ago        1.84GB
+
+
+PS C:\Users\Administrator\docker-devops-training-kyd> docker login
+Authenticating with existing credentials... [Username: viji2812]
+
+i Info → To login with a different account, run 'docker logout' followed by 'docker login'
+
+
+Login Succeeded
+
+
+
+PS C:\Users\Administrator\docker-devops-training-kyd> docker run -p 7000:7000 viji2812/springboot-kyn-k8s
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.7)
+
+2025-11-10T12:02:22.008Z  INFO 1 --- [Docker-demo] [           main] c.e.Docker_demo.DockerDemoApplication    : Starting DockerDemoApplication v0.0.1-SNAPSHOT using Java 21.0.9 with PID 1 (/app/app.jar started by root in /app)
+2025-11-10T12:02:22.019Z  INFO 1 --- [Docker-demo] [           main] c.e.Docker_demo.DockerDemoApplication    : No active profile set, falling back to 1 default profile: "default"
+2025-11-10T12:02:27.431Z  INFO 1 --- [Docker-demo] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 7000 (http)
+2025-11-10T12:02:27.471Z  INFO 1 --- [Docker-demo] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-11-10T12:02:27.472Z  INFO 1 --- [Docker-demo] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-10T12:02:27.603Z  INFO 1 --- [Docker-demo] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-11-10T12:02:27.608Z  INFO 1 --- [Docker-demo] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5408 ms
+2025-11-10T12:02:30.771Z  INFO 1 --- [Docker-demo] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 7000 (http) with context path '/'
+2025-11-10T12:02:30.836Z  INFO 1 --- [Docker-demo] [           main] c.e.Docker_demo.DockerDemoApplication    : Started DockerDemoApplication in 11.535 seconds (process running for 14.791)
+
+//access the port ---- http://localhost:7000
+2025-11-10T12:02:45.879Z  INFO 1 --- [Docker-demo] [nio-7000-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-10T12:02:45.882Z  INFO 1 --- [Docker-demo] [nio-7000-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-11-10T12:02:45.887Z  INFO 1 --- [Docker-demo] [nio-7000-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
+2025-11-10T12:02:47.685Z  INFO 1 --- [Docker-demo] [nio-7000-exec-8] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 978 ms
+2025-11-10T12:03:26.774Z  INFO 1 --- [Docker-demo] [ionShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-10T12:03:26.797Z  INFO 1 --- [Docker-demo] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+
+
+
+PS C:\Users\Administrator\docker-devops-training-kyd> docker push viji2812/springboot-kyn-k8s            
+Using default tag: latest
+The push refers to repository [docker.io/viji2812/springboot-kyn-k8s]
+4b3ffd8ccb52: Layer already exists 
+278ddb53b637: Pushed 
+a5b900b57159: Layer already exists 
+3ab3da5da257: Layer already exists 
+9fc3096c0eb2: Layer already exists 
+8908794a351c: Layer already exists 
+d8db6d83f4b1: Layer already exists 
+c4b0b3314451: Layer already exists 
+latest: digest: sha256:cc70de40d74e7e2bc6f5bd112859b2e01b514ad95fde6414d79428d5edba4932 size: 856
+
+
+
+PS C:\Users\Administrator\docker-devops-training-kyd> kubectl apply -f deployment.yaml                   
+deployment.apps/spring-boot-app configured
+
+
+PS C:\Users\Administrator\docker-devops-training-kyd> kubectl apply -f service.yaml                      
+service/spring-boot-service unchanged
+
+
+PS C:\Users\Administrator\docker-devops-training-kyd> kubectl get deployment                             
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+spring-boot-app   0/4     2            0           18m
+
+
+PS C:\Users\Administrator\docker-devops-training-kyd> kubectl describe deployment spring-boot-app        
+Name:                   spring-boot-app
+Namespace:              default
+CreationTimestamp:      Mon, 10 Nov 2025 17:16:42 +0530
+Labels:                 <none>
+Annotations:            deployment.kubernetes.io/revision: 2
+Selector:               app=spring-boot-app
+Replicas:               4 desired | 2 updated | 5 total | 0 available | 5 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  app=spring-boot-app
+  Containers:
+   spring-boot-container:
+    Image:      viji2812/springboot-kyn-k8s:latest
+    Port:       7000/TCP
+    Host Port:  0/TCP
+    Limits:
+      cpu:     500m
+      memory:  512Mi
+    Requests:
+      cpu:         250m
+      memory:      256Mi
+    Environment:   <none>
+    Mounts:        <none>
+  Volumes:         <none>
+  Node-Selectors:  <none>
+  Tolerations:     <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      False   MinimumReplicasUnavailable
+  Progressing    True    ReplicaSetUpdated
+OldReplicaSets:  spring-boot-app-cf7648b77 (3/3 replicas created)
+NewReplicaSet:   spring-boot-app-75d64445db (2/2 replicas created)
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  18m   deployment-controller  Scaled up replica set spring-boot-app-cf7648b77 from 0 to 4
+  Normal  ScalingReplicaSet  51s   deployment-controller  Scaled up replica set spring-boot-app-75d64445db from 0 to 1
+  Normal  ScalingReplicaSet  51s   deployment-controller  Scaled down replica set spring-boot-app-cf7648b77 from 4 to 3
+  Normal  ScalingReplicaSet  50s   deployment-controller  Scaled up replica set spring-boot-app-75d64445db from 1 to 2
+
+
+PS C:\Users\Administrator\docker-devops-training-kyd> kubectl get deployment                     
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+spring-boot-app   0/4     2            0           18m
+
+
+
+PS C:\Users\Administrator\docker-devops-training-kyd> kubectl describe deployment spring-boot-app
+Name:                   spring-boot-app
+Namespace:              default
+CreationTimestamp:      Mon, 10 Nov 2025 17:16:42 +0530
+Labels:                 <none>
+Annotations:            deployment.kubernetes.io/revision: 2
+Selector:               app=spring-boot-app
+Replicas:               4 desired | 2 updated | 5 total | 0 available | 5 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  app=spring-boot-app
+  Containers:
+   spring-boot-container:
+    Image:      viji2812/springboot-kyn-k8s:latest
+    Port:       7000/TCP
+    Host Port:  0/TCP
+    Limits:
+      cpu:     500m
+      memory:  512Mi
+    Requests:
+      cpu:         250m
+      memory:      256Mi
+    Environment:   <none>
+    Mounts:        <none>
+  Volumes:         <none>
+  Node-Selectors:  <none>
+  Tolerations:     <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      False   MinimumReplicasUnavailable
+  Progressing    True    ReplicaSetUpdated
+OldReplicaSets:  spring-boot-app-cf7648b77 (3/3 replicas created)
+NewReplicaSet:   spring-boot-app-75d64445db (2/2 replicas created)
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  19m   deployment-controller  Scaled up replica set spring-boot-app-cf7648b77 from 0 to 4
+  Normal  ScalingReplicaSet  105s  deployment-controller  Scaled up replica set spring-boot-app-75d64445db from 0 to 1
+  Normal  ScalingReplicaSet  105s  deployment-controller  Scaled down replica set spring-boot-app-cf7648b77 from 4 to 3
+  Normal  ScalingReplicaSet  104s  deployment-controller  Scaled up replica set spring-boot-app-75d64445db from 1 to 2
+
+
+PS C:\Users\Administrator\docker-devops-training-kyd> kubectl get deployment                     
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+spring-boot-app   3/4     4            3           19m
+
+
+
+PS C:\Users\Administrator\docker-devops-training-kyd> kubectl get deployment
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+spring-boot-app   4/4     4            4           20m
+
+
+PS C:\Users\Administrator\docker-devops-training-kyd> kubectl get pods      
+NAME                               READY   STATUS    RESTARTS   AGE
+spring-boot-app-75d64445db-577qw   1/1     Running   0          60s
+spring-boot-app-75d64445db-8dh9g   1/1     Running   0          69s
+spring-boot-app-75d64445db-j5x7w   1/1     Running   0          3m2s
+spring-boot-app-75d64445db-n8cwq   1/1     Running   0          3m3s
+
+
+
+PS C:\Users\Administrator\docker-devops-training-kyd> kubectl logs spring-boot-app-75d64445db-577qw
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.7)
+
+2025-11-10T12:07:25.611Z  INFO 1 --- [Docker-demo] [           main] c.e.Docker_demo.DockerDemoApplication    : Starting DockerDemoApplication v0.0.1-SNAPSHOT using Java 21.0.9 with PID 1 (/app/app.jar started by root in /app)
+2025-11-10T12:07:25.699Z  INFO 1 --- [Docker-demo] [           main] c.e.Docker_demo.DockerDemoApplication    : No active profile set, falling back to 1 default profile: "default"
+
+
+
+PS C:\Users\Administrator\docker-devops-training-kyd> kubectl logs spring-boot-app-75d64445db-j5x7w
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.7)
+
+2025-11-10T12:06:55.770Z  INFO 1 --- [Docker-demo] [           main] c.e.Docker_demo.DockerDemoApplication    : Starting DockerDemoApplication v0.0.1-SNAPSHOT using Java 21.0.9 with PID 1 (/app/app.jar started by root in /app)
+2025-11-10T12:06:56.061Z  INFO 1 --- [Docker-demo] [           main] c.e.Docker_demo.DockerDemoApplication    : No active profile set, falling back to 1 default profile: "default"
+2025-11-10T12:07:47.155Z  INFO 1 --- [Docker-demo] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 7000 (http)
+2025-11-10T12:07:47.856Z  INFO 1 --- [Docker-demo] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-11-10T12:07:47.857Z  INFO 1 --- [Docker-demo] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-10T12:07:51.341Z  INFO 1 --- [Docker-demo] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-11-10T12:07:51.347Z  INFO 1 --- [Docker-demo] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 53083 ms
+2025-11-10T12:08:33.443Z  INFO 1 --- [Docker-demo] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 7000 (http) with context path '/'
+2025-11-10T12:08:33.951Z  INFO 1 --- [Docker-demo] [           main] c.e.Docker_demo.DockerDemoApplication    : Started DockerDemoApplication in 123.687 seconds (process running for 137.213)
+
+
+
+PS C:\Users\Administrator\docker-devops-training-kyd> kubectl get deployment                       
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+spring-boot-app   4/4     4            4           22m
+
+
+
+PS C:\Users\Administrator\docker-devops-training-kyd> kubectl expose deployment spring-boot-app --type=NodePort
+service/spring-boot-app exposed
+
+
+
+PS C:\Users\Administrator\docker-devops-training-kyd> kubectl get service                                      
+NAME                  TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+kubernetes            ClusterIP      10.96.0.1       <none>        443/TCP          5h47m
+spring-boot-app       NodePort       10.102.42.62    <none>        7000:30525/TCP   16s
+spring-boot-service   LoadBalancer   10.104.177.24   <pending>     80:31989/TCP     23m
+
+
+PS C:\Users\Administrator\docker-devops-training-kyd> minikube service spring-boot-app --url
+http://127.0.0.1:58995
+! Because you are using a Docker driver on windows, the terminal needs to be open to run it.
+
+
+PS C:\Users\Administrator\docker-devops-training-kyd> minikube dashboard
+* Enabling dashboard ...
+  - Using image docker.io/kubernetesui/dashboard:v2.7.0
+  - Using image docker.io/kubernetesui/metrics-scraper:v1.0.8
+* Some dashboard features require the metrics-server addon. To enable all features please run:
+
+        minikube addons enable metrics-server
+
+* Verifying dashboard health ...
+* Launching proxy ...
+* Verifying proxy health ...
+* Opening http://127.0.0.1:59051/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/ in your default browser...
+
+PS C:\Users\Administrator\docker-devops-training-kyd> 
