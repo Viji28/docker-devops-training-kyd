@@ -20,6 +20,6 @@ WORKDIR /app
 # Copy only the JAR
 COPY --from=build /app/target/*.jar app.jar
 
-EXPOSE 8080
+EXPOSE 7000
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
